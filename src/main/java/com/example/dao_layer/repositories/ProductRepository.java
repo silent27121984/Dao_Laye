@@ -16,15 +16,14 @@ import java.util.stream.Collectors;
 public class ProductRepository {
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-    private final String scriptSelectProductName = read("select_product_name.sql");
-    private final String script = read(scriptSelectProductName);
     public ProductRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
 
     public List<String> getProductName(String name) {
-        return namedParameterJdbcTemplate.queryForList(script, Map.of("name", name), String.class);
+        String scriptSelectProductName = read("select_product_name.sql");
+        return namedParameterJdbcTemplate.queryForList(scriptSelectProductName, Map.of("name", name), String.class);
     }
 
     private static String read(String scriptFileName) {
