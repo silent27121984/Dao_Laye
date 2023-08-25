@@ -11,18 +11,17 @@ import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 @Repository
 public class ProductRepository {
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private final String scriptSelectProductName = read("select_product_name.sql");
     public ProductRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
 
     public List<String> getProductName(String name) {
-        String scriptSelectProductName = read("select_product_name.sql");
         return namedParameterJdbcTemplate.queryForList(scriptSelectProductName, Map.of("name", name), String.class);
     }
 
